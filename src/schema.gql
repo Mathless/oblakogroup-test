@@ -1,0 +1,37 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Category {
+  """id"""
+  id: Int!
+
+  """title"""
+  title: String!
+}
+
+type Query {
+  categories: [Category!]!
+  category(id: Int!): Category!
+}
+
+type Mutation {
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): Category!
+}
+
+input CreateCategoryInput {
+  """id"""
+  id: Int!
+
+  """title"""
+  title: String!
+}
+
+input UpdateCategoryInput {
+  id: Int!
+
+  """title"""
+  title: String
+}
