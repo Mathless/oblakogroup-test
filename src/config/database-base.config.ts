@@ -1,7 +1,7 @@
 import { ConnectionOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-// process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 export const baseConfig: ConnectionOptions = {
   type: 'postgres',
@@ -14,4 +14,5 @@ export const baseConfig: ConnectionOptions = {
   migrationsRun: false,
   namingStrategy: new SnakeNamingStrategy(),
   logging: true,
+  ssl: true,
 };
