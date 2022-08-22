@@ -1,1 +1,1 @@
-web: yarn run start:prod
+web: web: node dist/api/main.js
