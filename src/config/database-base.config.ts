@@ -1,8 +1,5 @@
 import { ConnectionOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
