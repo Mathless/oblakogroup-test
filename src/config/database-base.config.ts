@@ -14,5 +14,4 @@ export const baseConfig: ConnectionOptions = {
   migrationsRun: false,
   namingStrategy: new SnakeNamingStrategy(),
   logging: true,
-  ssl: true,
 };
