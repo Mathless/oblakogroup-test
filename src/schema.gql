@@ -28,9 +28,6 @@ type CategoryEntity {
   """title"""
   title: String!
 
-  """ssss"""
-  ssss: String!
-
   """Таски этой категории"""
   todos: [TaskEntity!]
 }
