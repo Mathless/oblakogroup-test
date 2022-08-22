@@ -2,36 +2,54 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Category {
+"""Task entity"""
+type TaskEntity {
   """id"""
-  id: Int!
+  id: ID!
+
+  """text"""
+  text: String!
+
+  """completed or not"""
+  isCompleted: Boolean!
+
+  """Category"""
+  category: CategoryEntity!
+
+  """Category id"""
+  categoryId: ID!
+}
+
+"""Категория задач"""
+type CategoryEntity {
+  """id"""
+  id: String!
 
   """title"""
   title: String!
+
+  """Таски этой категории"""
+  todos: [TaskEntity!]
 }
 
 type Query {
-  categories: [Category!]!
-  category(id: Int!): Category!
+  categories: [CategoryEntity!]!
 }
 
 type Mutation {
-  createCategory(createCategoryInput: CreateCategoryInput!): Category!
-  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
-  removeCategory(id: Int!): Category!
+  createCategory(createCategoryInput: CreateCategoryInput!): CategoryEntity!
+  createTodo(input: CreateTaskInput!): TaskEntity!
 }
 
 input CreateCategoryInput {
-  """id"""
-  id: Int!
-
   """title"""
   title: String!
 }
 
-input UpdateCategoryInput {
-  id: Int!
+input CreateTaskInput {
+  """categoryName"""
+  categoryName: String!
 
-  """title"""
-  title: String
+  """text"""
+  text: String!
 }

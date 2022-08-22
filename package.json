@@ -18,7 +18,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "migration:generate": "ts-node --project tsconfig.json -r tsconfig-paths/register node_modules/.bin/typeorm migration:generate -f src/config/database-migrations.config.ts",
+    "migration:run": "ts-node node_modules/typeorm/cli.js migration:run -f src/config/database-migrations.config.ts",
+    "migration:revert": "ts-node --project tsconfig.json -r tsconfig-paths/register node_modules/.bin/typeorm migration:revert -f src/config/database-migrations.config.ts",
+    "migration:create": "ts-node --project tsconfig.json -r tsconfig-paths/register node_modules/.bin/typeorm migration:create -f src/config/database-migrations.config.ts"
   },
   "dependencies": {
     "@nestjs/apollo": "^10.0.22",
@@ -26,11 +30,17 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/graphql": "^10.0.22",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/typeorm": "^9.0.1",
     "apollo-server-express": "^3.10.1",
     "graphql": "^16.6.0",
+    "pg": "^8.7.3",
+    "postgres": "^3.2.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "typeorm": "^0.2.41",
+    "typeorm-naming-strategies": "^4.1.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
