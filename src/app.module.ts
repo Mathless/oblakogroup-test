@@ -14,6 +14,7 @@ import { config } from './config/database.config';
       driver: ApolloDriver,
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      introspection: true,
     }),
     TypeOrmModule.forRoot(config),
   ],
