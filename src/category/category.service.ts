@@ -52,7 +52,8 @@ export class CategoryService {
     const task = await this.taskEntityRepository.findOne({
       where: { id: updateTaskInput.id },
     });
-    task.text = updateTaskInput.text;
+    task.text = updateTaskInput.text ?? task.text;
+    task.isCompleted = updateTaskInput.isCompleted ?? task.isCompleted;
     await this.taskEntityRepository.save(task);
     return task;
   }
