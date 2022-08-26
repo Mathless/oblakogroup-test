@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { TaskEntity } from './entities/task.entity';
 import { v4 as uuid } from 'uuid';
 import { CreateTaskInput } from './dto/create-task.input';
+import { UpdateTaskInput } from './dto/update-task.input';
 
 @Injectable()
 export class CategoryService {
@@ -43,6 +44,15 @@ export class CategoryService {
     task.id = uuid();
     task.categoryId = category.id;
     task.category = category;
+    await this.taskEntityRepository.save(task);
+    return task;
+  }
+
+  async updateTask(updateTaskInput: UpdateTaskInput) {
+    const task = await this.taskEntityRepository.findOne({
+      where: { id: updateTaskInput.id },
+    });
+    task.text = updateTaskInput.text;
     await this.taskEntityRepository.save(task);
     return task;
   }

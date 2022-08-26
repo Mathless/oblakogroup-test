@@ -39,6 +39,7 @@ type Query {
 type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryEntity!
   createTodo(input: CreateTaskInput!): TaskEntity!
+  updateTodo(input: UpdateTaskInput!): TaskEntity!
 }
 
 input CreateCategoryInput {
@@ -49,6 +50,13 @@ input CreateCategoryInput {
 input CreateTaskInput {
   """categoryName"""
   categoryName: String!
+
+  """text"""
+  text: String!
+}
+
+input UpdateTaskInput {
+  id: String!
 
   """text"""
   text: String!

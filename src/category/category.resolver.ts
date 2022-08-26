@@ -5,6 +5,7 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { TaskEntity } from './entities/task.entity';
 import { CreateTaskInput } from './dto/create-task.input';
+import { UpdateTaskInput } from './dto/update-task.input';
 
 @Resolver(() => CategoryEntity)
 export class CategoryResolver {
@@ -21,6 +22,12 @@ export class CategoryResolver {
   async createTask(@Args('input') createTaskInput: CreateTaskInput) {
     // console.log(await this.categoryService.createTask(createTaskInput));
     return await this.categoryService.createTask(createTaskInput);
+  }
+
+  @Mutation(() => TaskEntity, { name: 'updateTodo' })
+  async updateTask(@Args('input') updateTaskInput: UpdateTaskInput) {
+    // console.log(await this.categoryService.createTask(createTaskInput));
+    return await this.categoryService.updateTask(updateTaskInput);
   }
 
   @Query(() => [CategoryEntity], { name: 'categories' })
