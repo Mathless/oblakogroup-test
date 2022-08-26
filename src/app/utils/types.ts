@@ -1,5 +1,6 @@
 export interface category {
   title: string;
+  id: string;
 }
 
 export interface categoryWithTask extends category {
@@ -7,6 +8,7 @@ export interface categoryWithTask extends category {
     {
       isCompleted: boolean;
       text: string;
+      id: string;
     }
   ];
 }
@@ -14,4 +16,5 @@ export interface categoryWithTask extends category {
 export interface todo {
   isCompleted: boolean;
   text: string;
+  id: string;
 }

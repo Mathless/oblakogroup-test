@@ -6,9 +6,11 @@ const queryGetAll = gql`
   query {
     categories {
       title
+      id
       todos {
         isCompleted
         text
+        id
       }
     }
   }

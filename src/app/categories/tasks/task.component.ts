@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { todo } from '../../utils/types';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-task',
@@ -9,9 +10,9 @@ import { todo } from '../../utils/types';
 export class TaskComponent {
   @Input() tasks: todo[] | undefined;
 
-  constructor() {}
-
+  // eslint-disable-next-line no-unused-vars
+  constructor(private todoService: TodoService) {}
   changeTaskState(task: todo) {
-    alert(task.isCompleted);
+    this.todoService.changeTaskState(task);
   }
 }
