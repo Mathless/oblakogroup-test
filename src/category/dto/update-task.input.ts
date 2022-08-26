@@ -4,8 +4,8 @@ import { Field, InputType } from '@nestjs/graphql';
 export class UpdateTaskInput {
   @Field(() => String, { nullable: false })
   id: string;
-  @Field(() => String, { description: 'text' })
+  @Field(() => String, { description: 'text', nullable: true })
   text: string;
-  @Field(() => Boolean, { description: 'Done or not' })
+  @Field(() => Boolean, { description: 'Done or not', nullable: true })
   isCompleted: boolean;
 }

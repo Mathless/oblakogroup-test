@@ -59,5 +59,8 @@ input UpdateTaskInput {
   id: String!
 
   """text"""
-  text: String!
+  text: String
+
+  """Done or not"""
+  isCompleted: Boolean
 }
