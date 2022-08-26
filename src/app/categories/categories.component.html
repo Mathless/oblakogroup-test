@@ -1,0 +1,9 @@
+<mat-list role="list">
+  <mat-card class="category-card" *ngFor="let category of categoriesWithTasks">
+    <mat-card-title style="padding: 6px">{{category.title}}</mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-selection-list>
+      <app-task [tasks]="category.todos"></app-task>
+    </mat-selection-list>
+  </mat-card>
+</mat-list>

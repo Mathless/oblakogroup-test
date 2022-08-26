@@ -1,0 +1,9 @@
+.category-card{
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 40px;
+  padding: 8px;
+  min-width: 200px;
+  float: left;
+}

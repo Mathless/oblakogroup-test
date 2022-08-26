@@ -1,0 +1,3 @@
+<mat-list-option *ngFor="let task of tasks" [selected] = task.isCompleted (click)="changeTaskState(task)">
+  {{task.text}}
+</mat-list-option>
