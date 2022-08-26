@@ -13,7 +13,7 @@ export class TodoService {
       mutation{
         updateTodo(input:{
           id:${task.id}
-          text:${task.text}
+          isCompleted:${!task.isCompleted}
         }){
           id
           isCompleted
@@ -21,5 +21,10 @@ export class TodoService {
         }
       }
     `;
+    this.apollo
+      .watchQuery({
+        query: queryChangeState
+      })
+      .valueChanges.subscribe();
   }
 }
