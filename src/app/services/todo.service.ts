@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { todo } from '../utils/types';
+import { categoryWithTask, todo } from '../utils/types';
 import { Apollo, gql } from 'apollo-angular';
 
 @Injectable({
@@ -10,11 +10,8 @@ export class TodoService {
   constructor(private apollo: Apollo) {}
   changeTaskState(task: todo) {
     const queryChangeState = gql`
-      mutation{
-        updateTodo(input:{
-          id:${task.id}
-          isCompleted:${!task.isCompleted}
-        }){
+      mutation updateToDo($taskId: String!, $isCompleted: Boolean) {
+        updateTodo(input: { id: $taskId, isCompleted: $isCompleted }) {
           id
           isCompleted
           text
@@ -22,9 +19,13 @@ export class TodoService {
       }
     `;
     this.apollo
-      .watchQuery({
-        query: queryChangeState
+      .mutate({
+        mutation: queryChangeState,
+        variables: {
+          taskId: task.id,
+          isCompleted: !task.isCompleted
+        }
       })
-      .valueChanges.subscribe();
+      .subscribe();
   }
 }
