@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+example-chip-list {
+  width: 100%;
+}
+
