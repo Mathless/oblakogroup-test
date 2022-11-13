@@ -1,88 +1,62 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { category } from '../../utils/types';
-import { Apollo, gql } from 'apollo-angular';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { map, startWith } from 'rxjs/operators';
-
-const queryGetCategories = gql`
-  query {
-    categories {
-      title
-      id
-    }
-  }
-`;
+import { Component, OnInit } from '@angular/core';
+import { Apollo } from 'apollo-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-add-task',
   templateUrl: './add-task.component.html',
   styleUrls: ['./add-task.component.css']
 })
-export class AddTaskComponent {
-  categoriesName: string[] = [];
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  categoryControl = new FormControl('');
-  filteredCategories: Observable<string[]>;
-  fruit: string = '';
-
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
-  @ViewChild('taskInput') taskInput: ElementRef<HTMLInputElement>;
+export class AddTaskComponent implements OnInit {
+  AddTaskForm: FormGroup;
   task: string;
+  category: string;
+  constructor(
+    private apollo: Apollo,
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<AddTaskComponent>,
+    private todoService: TodoService
+  ) {}
 
-  constructor(private apollo: Apollo) {
-    this.filteredCategories = this.categoryControl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) =>
-        fruit ? this._filter(fruit) : this.categoriesName.slice()
-      )
-    );
-  }
   ngOnInit(): void {
-    this.apollo
-      .watchQuery({
-        query: queryGetCategories
-      })
-      .valueChanges.subscribe((result: any) => {
-        this.categoriesName = result?.data?.categories.map(
-          (x: category) => x.title
-        );
-        this.categoryControl.setValue(null);
+    this.initForm();
+  }
+  onSubmit() {
+    if (this.isFormValid()) {
+      this.todoService.addTask({
+        categoryName: this.AddTaskForm.controls['category']?.value,
+        text: this.AddTaskForm.controls['task']?.value
       });
-  }
-
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    // Add our fruit
-    if (value) {
-      this.fruit = value;
+      this.dialogRef.close();
     }
-
-    // Clear the input value
-    event.chipInput!.clear();
-
-    this.categoryControl.setValue(null);
   }
 
-  remove(): void {
-    this.fruit = '';
+  private isFormValid() {
+    const controls = this.AddTaskForm.controls;
+
+    if (this.AddTaskForm.invalid) {
+      Object.keys(controls).forEach((controlName) =>
+        controls[controlName].markAsTouched()
+      );
+
+      return false;
+    }
+    return true;
   }
 
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruit = event.option.viewValue;
-    this.fruitInput.nativeElement.value = '';
-    this.categoryControl.setValue(null);
+  private initForm() {
+    this.AddTaskForm = this.fb.group({
+      category: ['', [Validators.required]],
+      task: ['', [Validators.required]]
+    });
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.categoriesName.filter((fruit) =>
-      fruit.toLowerCase().includes(filterValue)
-    );
+  addTask(param: { task: string; category: string }) {
+    this.todoService.addTask({
+      categoryName: param.category,
+      text: param.task
+    });
   }
 }

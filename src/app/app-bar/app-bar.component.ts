@@ -11,16 +11,6 @@ export class AppBarComponent {
   constructor(public dialog: MatDialog) {}
 
   openDialog() {
-    const dialogRef = this.dialog.open(AddTaskComponent);
-
-    dialogRef
-      .afterClosed()
-      .subscribe((result: { category: string; task: string }) => {
-        console.log(
-          `Dialog result: ${
-            result?.category?.toString() + ' ' + result?.task?.toString()
-          }`
-        );
-      });
+    this.dialog.open(AddTaskComponent);
   }
 }

@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
-import { categoryWithTask, todo } from '../utils/types';
+import { categoryWithTask, createTask, todo } from '../utils/types';
 import { Apollo, gql } from 'apollo-angular';
-import { CategoriesComponent } from '../categories/categories.component';
 import { Subscription } from 'rxjs';
+import { DataSharingService } from './datasharing.service';
+const queryAddTask = gql`
+  mutation createTodo($categoryName: String!, $text: String!) {
+    createTodo(input: { categoryName: $categoryName, text: $text }) {
+      id
+    }
+  }
+`;
 
 const queryGetAll = gql`
   query {
@@ -31,9 +38,28 @@ const queryChangeState = gql`
   providedIn: 'root'
 })
 export class TodoService {
-  // eslint-disable-next-line no-unused-vars
   private categoriesWithTasks: categoryWithTask[] = [];
-  constructor(private apollo: Apollo) {}
+  constructor(
+    private apollo: Apollo,
+    private _dataSharingService: DataSharingService
+  ) {}
+  addTask(createTask: createTask) {
+    this.apollo
+      .mutate({
+        mutation: queryAddTask,
+        variables: {
+          categoryName: createTask.categoryName,
+          text: createTask.text
+        }
+      })
+      .pipe()
+      .subscribe((res) => {
+        if (!res.loading) {
+          this._dataSharingService.emitChange(createTask.categoryName);
+        }
+      });
+  }
+
   changeTaskState(task: todo) {
     this.apollo
       .mutate({
@@ -52,6 +78,7 @@ export class TodoService {
         query: queryGetAll
       })
       .valueChanges.subscribe((result: any) => {
+        console.log(result);
         this.categoriesWithTasks = result?.data?.categories;
       });
   }

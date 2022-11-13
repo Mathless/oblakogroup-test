@@ -18,3 +18,8 @@ export interface todo {
   text: string;
   id: string;
 }
+
+export interface createTask {
+  categoryName: string;
+  text: string;
+}

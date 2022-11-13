@@ -23,6 +23,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
+import { DataSharingService } from './services/datasharing.service';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -51,9 +54,11 @@ import { MatSortModule } from '@angular/material/sort';
     MatChipsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    FormsModule
+    FormsModule,
+    MatTabsModule,
+    MatSelectModule
   ],
-  providers: [],
+  providers: [DataSharingService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

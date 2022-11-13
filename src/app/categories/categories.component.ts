@@ -1,6 +1,7 @@
 import { Apollo, gql } from 'apollo-angular';
 import { Component, OnInit } from '@angular/core';
 import { categoryWithTask } from '../utils/types';
+import { DataSharingService } from '../services/datasharing.service';
 
 const queryGetAll = gql`
   query {
@@ -25,14 +26,21 @@ export class CategoriesComponent implements OnInit {
   categoriesWithTasks: categoryWithTask[] = [];
 
   // eslint-disable-next-line no-unused-vars
-  constructor(private apollo: Apollo) {}
+  constructor(
+    private apollo: Apollo,
+    private _dataSharingService: DataSharingService
+  ) {
+    _dataSharingService.changeEmitted$.subscribe((value) => {
+      this.ngOnInit();
+    });
+  }
 
   ngOnInit(): void {
     this.apollo
-      .watchQuery({
+      .query({
         query: queryGetAll
       })
-      .valueChanges.subscribe((result: any) => {
+      .subscribe((result: any) => {
         this.categoriesWithTasks = result?.data?.categories;
       });
   }
